@@ -25,7 +25,7 @@ API Gateway (Nginx)
 
 ---
 
-### 2. Deck Service (Python + Flask + MongoDB)
+### 2. Deck Service (Python + FastAPI + PostgreSQL)
 **Функции:**
 - CRUD операции с колодами
 - Управление карточками (вопрос/ответ)
@@ -120,7 +120,7 @@ def spaced_repetition(card, user_performance):
 |-----------------|--------------------------------------|
 | API Gateway     | Nginx + Lua                          |
 | User Service    | FastAPI, PostgreSQL, JWT             |
-| Deck Service    | Flask, MongoDB, MinIO (для файлов)   |
+| Deck Service    | FastAPI, PostgreSQL, MinIO (для файлов)   |
 | Study Service   | FastAPI, Redis, NumPy (для алгоритмов)|
 | Search Service  | Elasticsearch, Python                |
 | Notification    | Celery, RabbitMQ, SMTP               |
@@ -181,12 +181,3 @@ docker-compose up --build
 docker logs -f notification-service
 ```
 
-### Что изучить дополнительно
-1. Паттерны микросервисов (SAGA, CQRS)
-2. gRPC vs REST vs GraphQL
-3. Мониторинг (Grafana + Prometheus)
-4. Message Brokers (Kafka vs RabbitMQ)
-
-Начни с малого — реализуй сначала User Service и API Gateway. Как только будет работающая аутентификация, добавляй Deck Service. Помни про принцип "минимально рабочего продукта"! 
-
-Есть вопросы по конкретному сервису? Готов углубиться в детали реализации!

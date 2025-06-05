@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from typing import Optional, List
 import math
 
-from database import get_db
-from crud import UserCRUD
-from schemas import (
+from src.database import get_db
+from src.crud import UserCRUD
+from src.schemas import (
     UserCreateRequest, UserResponse, UserUpdateRequest,
     UserSearchRequest, UserListResponse, SuccessResponse,
     PaginationParams

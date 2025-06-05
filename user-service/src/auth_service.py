@@ -3,12 +3,12 @@ from typing import Optional
 from fastapi import HTTPException, status
 from passlib.context import CryptContext
 from jose import JWTError, jwt
-from schemas import (
+from src.schemas import (
     UserCreateRequest, UserCreateResponse, 
     UserLoginRequest, UserLoginResponse,
     UserLogoutResponse, UserResponse
 )
-from database_client import DatabaseClient, get_database_client
+from src.database_client import DatabaseClient, get_database_client
 import hashlib
 from datetime import timezone
 import os

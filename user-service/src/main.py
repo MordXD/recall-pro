@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
-from routers.auth import router as auth_router
+from src.routers.auth import router as auth_router
 
 # Создание FastAPI приложения
 app = FastAPI(

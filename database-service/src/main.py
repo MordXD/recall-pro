@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
-from routers import users, tokens
-from database import create_tables
+from src.routers import users, tokens
+from src.database import create_tables
 
 # Создание FastAPI приложения
 app = FastAPI(

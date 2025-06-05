@@ -13,19 +13,19 @@ RUN pip install poetry
 WORKDIR /app
 
 # Копируем файлы Poetry
-COPY pyproject.toml poetry.lock ./
+COPY pyproject.toml ./
 
 # Настраиваем Poetry чтобы не создавать виртуальную среду
 RUN poetry config virtualenvs.create false
 
 # Устанавливаем зависимости
-RUN poetry install --no-dev
+RUN poetry install --without dev
 
 # Копируем исходный код
 COPY src/ ./src/
 
 # Открываем порт
-EXPOSE 8000
+EXPOSE 8001
 
 # Запускаем приложение
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"] 
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"] 

@@ -19,7 +19,7 @@ COPY pyproject.toml ./
 RUN poetry config virtualenvs.create false
 
 # Устанавливаем зависимости
-RUN poetry install --no-dev
+RUN poetry install --without dev
 
 # Копируем исходный код
 COPY src/ ./src/

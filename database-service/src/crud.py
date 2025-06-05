@@ -2,8 +2,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import and_, or_
 from datetime import datetime, timezone
 from typing import Optional, List, Tuple
-from models import User, RefreshToken
-from schemas import UserCreateRequest, UserUpdateRequest
+from src.models import User, RefreshToken
+from src.schemas import UserCreateRequest, UserUpdateRequest
 
 class UserCRUD:
     """CRUD операции для пользователей"""

@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Optional
-from schemas import (
+from src.schemas import (
     UserCreateRequest, UserCreateResponse, 
     UserLoginRequest, UserLoginResponse, 
     UserLogoutResponse, RefreshTokenRequest, TokenResponse
 )
-from auth_service import AuthService, get_auth_service
+from src.auth_service import AuthService, get_auth_service
 
 router = APIRouter()
 security = HTTPBearer()
