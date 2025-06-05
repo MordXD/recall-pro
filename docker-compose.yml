@@ -1,0 +1,109 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: recall_pro_postgres
+    environment:
+      POSTGRES_DB: recall_pro
+      POSTGRES_USER: recall_user
+      POSTGRES_PASSWORD: recall_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - recall_pro_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U recall_user -d recall_pro"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Database Service
+  database-service:
+    build: 
+      context: ./database-service
+      dockerfile: Dockerfile
+    container_name: recall_pro_database_service
+    environment:
+      # Database settings
+      DATABASE_URL: postgresql://recall_user:recall_password@postgres:5432/recall_pro
+      
+      # App settings
+      DEBUG: true
+      ENVIRONMENT: development
+    ports:
+      - "8002:8002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - recall_pro_network
+    volumes:
+      - ./database-service/src:/app/src
+    restart: unless-stopped
+
+  # User Service
+  user-service:
+    build: 
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: recall_pro_user_service
+    environment:
+      # Database Service settings
+      DATABASE_SERVICE_URL: http://database-service:8002
+      
+      # JWT settings
+      SECRET_KEY: your-super-secret-jwt-key-change-in-production
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      REFRESH_TOKEN_EXPIRE_DAYS: 7
+      
+      # App settings
+      DEBUG: true
+      ENVIRONMENT: development
+    ports:
+      - "8001:8000"
+    depends_on:
+      - database-service
+    networks:
+      - recall_pro_network
+    volumes:
+      - ./user-service/src:/app/src
+    restart: unless-stopped
+
+  # API Gateway (placeholder for future)
+  # api-gateway:
+  #   build: 
+  #     context: ./api-gateway
+  #     dockerfile: Dockerfile
+  #   container_name: recall_pro_api_gateway
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - user-service
+  #   networks:
+  #     - recall_pro_network
+
+  # Deck Service (placeholder for future)
+  # deck-service:
+  #   build: 
+  #     context: ./deck-service
+  #     dockerfile: Dockerfile
+  #   container_name: recall_pro_deck_service
+  #   environment:
+  #     DATABASE_SERVICE_URL: http://database-service:8002
+  #   depends_on:
+  #     - database-service
+  #   networks:
+  #     - recall_pro_network
+
+volumes:
+  postgres_data:
+
+networks:
+  recall_pro_network:
+    driver: bridge
